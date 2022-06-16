@@ -1,15 +1,34 @@
 import express from 'express';
+import cors from 'cors';
 
 const server = express();
 
-server.use(cors())
+server.use(cors(), express.json())
 
-server.get('/', (req, res)=>{
+let users = [];
+let mensagens = [];
 
-    res.send("teste")
+server.post('/sign-up', (req, res)=>{
+    users.push(req.body)
+    res.status(200).send("OK")
 
 });
 
+server.get('/sign-up', (req, res)=>{
+    console.log(req.body)
+    res.send(users)
+
+});
+
+
+server.post('/tweets', (req, res)=>{
+    console.log(req.body)
+
+});
+
+server.get('/tweets', (req, res)=>{
+    res.send(mensagens)
+});
 
 
 
