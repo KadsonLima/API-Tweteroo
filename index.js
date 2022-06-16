@@ -23,11 +23,21 @@ server.get('/sign-up', (req, res)=>{
 
 server.post('/tweets', (req, res)=>{
     console.log(req.body)
+    users.forEach(e=>{
+        if(e.username === req.body.username){
+            let msg = req.body;
+            msg['avatar'] = e.avatar;
+            mensagens.push(msg);
+            res.status(200).send(mensagens)
+        }
+    })
 
 });
 
 server.get('/tweets', (req, res)=>{
-    res.send(mensagens)
+    res.status(200).send(mensagens)
+    
+
 });
 
 
