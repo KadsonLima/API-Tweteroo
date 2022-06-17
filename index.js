@@ -9,13 +9,13 @@ let users = [];
 let mensagens = [];
 
 server.post('/sign-up', (req, res)=>{
+    if(req.body.username == "" || req.body.avatar == "") res.status(400).send("BADREQUEST");
     users.push(req.body)
     res.status(200).send("OK")
 
 });
 
 server.get('/sign-up', (req, res)=>{
-    console.log(req.body)
     res.send(users)
 
 });
@@ -28,9 +28,9 @@ server.post('/tweets', (req, res)=>{
             let msg = req.body;
             msg['avatar'] = e.avatar;
             mensagens.push(msg);
-            res.status(200).send(mensagens)
         }
     })
+    res.status(200).send(mensagens);
 
 });
 
