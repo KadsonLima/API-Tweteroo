@@ -18,7 +18,7 @@ server.post('/sign-up', (req, res)=>{
     const listaUsuarios = users.map(e=>{return e.username})
 
     if (listaUsuarios.includes(username)){
-        res.status(400).send("Username já existente!!"); 
+        res.status(200).send("OK");
         return;
     }
     if(!username || !avatar) {
