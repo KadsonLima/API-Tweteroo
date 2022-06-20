@@ -1,14 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
+import {lastMensagens} from './util/utimas10.js';
 
 
 const server = express();
 
-server.use(cors(), express.json())
+server.use(cors());
+server.use(express.json());
 
-let database = JSON.parse(fs.readFileSync("database.json", "utf-8"));
-let msgsBanco = JSON.parse(fs.readFileSync("mensagem.json", "utf-8"));
+let database = JSON.parse(fs.readFileSync("./src/database/database.json", "utf-8"));
+let msgsBanco = JSON.parse(fs.readFileSync("./src/database/mensagem.json", "utf-8"));
 
 let users = database.user;
 let mensagens = msgsBanco;
@@ -27,7 +29,7 @@ server.post('/sign-up', (req, res)=>{
     }
     
     users.push(req.body);
-    fs.writeFileSync("database.json", JSON.stringify({user:users}, null , 2));
+    fs.writeFileSync("./src/database/database.json", JSON.stringify({user:users}, null , 2));
     res.status(200).send("OK");
 
 });
@@ -50,13 +52,16 @@ server.post('/tweets', (req, res)=>{
     
     console.log(req.body);
     
-    fs.writeFileSync("mensagem.json", JSON.stringify(mensagens, null , 2));
-    res.status(200).send(mensagens);
+    fs.writeFileSync("./src/database/mensagem.json", JSON.stringify(mensagens, null , 2));
+    const lastMsgs = lastMensagens(mensagens);
+    res.status(200).send(lastMsgs)
+
 
 });
 
 server.get('/tweets', (req, res)=>{
-    res.status(200).send(mensagens)
+    const lastMsgs = lastMensagens(mensagens);
+    res.status(200).send(lastMsgs)
     
 
 });
